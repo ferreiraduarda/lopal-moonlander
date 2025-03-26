@@ -25,7 +25,12 @@ let moduloLunar = {
     angulo: 0,
     largura: 20,
     altura: 20,
-    cor: "black"
+    cor: "black",
+    motorLigado: false,
+    velocidade: {
+        x: 0,
+        y: 0
+    }
 }
 
 function desenharModuloLunar(){
@@ -38,7 +43,9 @@ function desenharModuloLunar(){
     contexto.fill();
     contexto.closePath();
 
-    desenharChama()
+    if(moduloLunar.motorLigado){
+        desenharChama()
+    }
     contexto.restore();
 
 }
@@ -73,12 +80,39 @@ function desenhar(){
     contexto.fill();
     contexto.restore(); //restaura o contexto anterior
 
-    x = x + 5;
-requestAnimationFrame(desenhar);
-desenharModuloLunar();
+    x = x + 1;
+    atracaoGravitacional();
+    desenharModuloLunar();
+    requestAnimationFrame(desenhar);
 
 }
+    //pressionando a seta para cima para ligar o motor
+    document.addEventListener("keydown", teclaPressionada)
+function teclaPressionada(evento){
 
-desenhar();
+    if(evento.keyCode == 38){
+        moduloLunar.motorLigado = true;
+    }
+}
+    //soltando a seta para cima para desligar o motor
+    document.addEventListener("keyup", teclaSolta);
+
+function teclaSolta(evento){
+    if(evento.keyCode == 38){
+        moduloLunar.motorLigado = false;
+    }
+}
+
+let gravidade = 0.1;
+function atracaoGravitacional(){
+    moduloLunar.posicao.x += moduloLunar.velocidade.x;
+    moduloLunar.posicao.y += moduloLunar.velocidade.y;
+    if(moduloLunar.motorLigado){
+        moduloLunar.velocidade.y -= 0.2;
+    }
+    moduloLunar.velocidade.y += gravidade;
+}
+
+    desenhar();
 
 

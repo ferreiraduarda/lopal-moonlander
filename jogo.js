@@ -126,7 +126,7 @@ function mostrarAngulo(){
 }
 
 function desenharEstrelas(){
-    for (let i = 0; i < estrelas.length;){
+    for (let i = 0; i < estrelas.length; i++){
         let estrela = estrelas[i];
         contexto.beginPath();
         contexto.arc(estrela.x, estrela.y, estrela.raio, 0, 2 * Math.PI);
